@@ -1067,3 +1067,39 @@ body { font-size: 15px; letter-spacing: 0; }
 @media (prefers-reduced-motion: reduce) { .carousel__slide { transition: none !important; } }
 @media (max-width: 900px) { .carousel__arrows { top: 22%; } }
 .carousel__slide + .carousel__slide { transform: translateX(100%); }
+
+/* =========================================================
+   v7 — corrections : logo du footer, barre de défilement,
+   défilement fluide, carrousel en piste
+   ========================================================= */
+
+/* Grand logo du footer : sa taille est calculée en JS pour tenir pile dans la largeur */
+.footer__giant { display: inline-block; white-space: nowrap; margin-left: 0; font-size: 18vw; }
+
+/* Pas de barre de défilement visible (le défilement reste possible) */
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+/* Lenis (défilement fluide) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Carrousel : une piste qui glisse, images fixes, texte toujours en place */
+.carousel__track {
+  display: flex; height: 100%;
+  transition: transform .9s cubic-bezier(.65, 0, .35, 1);
+  will-change: transform;
+}
+.carousel__slide,
+.carousel__slide + .carousel__slide {
+  position: relative; inset: auto; flex: 0 0 100%; height: 100%;
+  opacity: 1; visibility: visible;
+  transform: none !important; transition: none !important; will-change: auto;
+}
+.carousel__slide img,
+.carousel__slide.is-active img { transform: none; transition: none; }
+.carousel__content > *,
+.carousel__slide.is-active .carousel__content > * { opacity: 1; transform: none; transition: none; }
+@media (prefers-reduced-motion: reduce) { .carousel__track { transition: none !important; } }

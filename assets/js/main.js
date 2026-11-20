@@ -55,7 +55,7 @@
           </nav>
         </div>
       </header>
-      <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile">
+      <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile" data-lenis-prevent>
         <a href="boutique.html">Tous les soins</a>
         ${navLiens.map(([h, t]) => `<a href="${h}">${t}</a>`).join("")}
         <span class="label">Rosalya</span>
@@ -146,7 +146,7 @@
            <h2>Votre panier <span class="muted" data-cart-count-text></span></h2>
            <button class="close-btn" data-close-cart aria-label="Fermer le panier"></button>
          </div>
-         <div class="drawer__body" data-cart-lines></div>
+         <div class="drawer__body" data-cart-lines data-lenis-prevent></div>
          <div class="drawer__foot" data-cart-foot></div>
        </aside>
        <div class="toast" role="status" aria-live="polite"></div>`
@@ -311,21 +311,11 @@
     const slides = $$(".carousel__slide", c);
     const dots = $$(".carousel__dots button", c);
     const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const track = $(".carousel__track", c);
     let i = 0, timer;
-    const aller = (n, sens) => {
-      const suivant = (n + slides.length) % slides.length;
-      if (suivant !== i) {
-        const dir = sens || (n > i ? 1 : -1);
-        const entrant = slides[suivant], sortant = slides[i];
-        // place la diapositive entrante sur le côté, sans animation
-        entrant.style.transition = "none";
-        entrant.style.transform = `translateX(${dir * 100}%)`;
-        void entrant.offsetWidth;
-        entrant.style.transition = "";
-        entrant.style.transform = "translateX(0)";
-        sortant.style.transform = `translateX(${-dir * 100}%)`;
-      }
-      i = suivant;
+    const aller = (n) => {
+      i = (n + slides.length) % slides.length;
+      track.style.transform = `translateX(${-i * 100}%)`;
       slides.forEach((s, k) => {
         s.classList.toggle("is-active", k === i);
         s.setAttribute("aria-hidden", k !== i);
@@ -333,10 +323,9 @@
       });
       dots.forEach((d, k) => d.setAttribute("aria-selected", k === i));
     };
-    slides.forEach((s, k) => (s.style.transform = k === 0 ? "translateX(0)" : "translateX(100%)"));
-    const lancer = () => { if (reduit) return; clearInterval(timer); timer = setInterval(() => aller(i + 1, 1), 6000); };
+    const lancer = () => { if (reduit) return; clearInterval(timer); timer = setInterval(() => aller(i + 1), 6000); };
     dots.forEach((d, k) => d.addEventListener("click", () => { aller(k); lancer(); }));
-    $$(".carousel__arrow", c).forEach((b) => b.addEventListener("click", () => { aller(i + parseInt(b.dataset.dir, 10), parseInt(b.dataset.dir, 10)); lancer(); }));
+    $$(".carousel__arrow", c).forEach((b) => b.addEventListener("click", () => { aller(i + parseInt(b.dataset.dir, 10)); lancer(); }));
     c.addEventListener("mouseenter", () => clearInterval(timer));
     c.addEventListener("mouseleave", lancer);
     c.addEventListener("focusin", () => clearInterval(timer));
@@ -345,7 +334,7 @@
     c.addEventListener("touchend", (e) => {
       if (x0 === null) return;
       const dx = e.changedTouches[0].clientX - x0;
-      if (Math.abs(dx) > 40) { aller(i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); lancer(); }
+      if (Math.abs(dx) > 40) { aller(i + (dx < 0 ? 1 : -1)); lancer(); }
       x0 = null;
     });
     aller(0);
@@ -636,6 +625,45 @@
     });
   }
 
+  /* ---------------- Grand logo du pied de page : occupe toute la largeur ---------------- */
+  function logoGeant() {
+    const g = $(".footer__giant");
+    if (!g) return;
+    const ajuster = () => {
+      g.style.fontSize = "100px";
+      const largeur = g.parentElement.clientWidth -
+        parseFloat(getComputedStyle(g.parentElement).paddingLeft) -
+        parseFloat(getComputedStyle(g.parentElement).paddingRight);
+      const naturelle = g.scrollWidth;
+      if (naturelle) g.style.fontSize = Math.floor((100 * largeur) / naturelle * 0.995) + "px";
+    };
+    ajuster();
+    if (document.fonts) document.fonts.ready.then(ajuster);
+    let t;
+    window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(ajuster, 100); });
+  }
+
+  /* ---------------- Défilement fluide (Lenis) ---------------- */
+  function defilementFluide() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js";
+    s.onload = () => {
+      if (!window.Lenis) return;
+      document.documentElement.style.scrollBehavior = "auto";
+      const lenis = new window.Lenis({ duration: 1.15, smoothWheel: true, anchors: true });
+      const boucle = (t) => { lenis.raf(t); requestAnimationFrame(boucle); };
+      requestAnimationFrame(boucle);
+      // pas de défilement de la page quand le panier ou le menu mobile sont ouverts
+      new MutationObserver(() => {
+        const bloque = document.body.classList.contains("cart-open") || document.body.classList.contains("menu-open");
+        bloque ? lenis.stop() : lenis.start();
+      }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+      window.RosalyaLenis = lenis;
+    };
+    document.head.appendChild(s);
+  }
+
   /* ---------------- Démarrage ---------------- */
   enTete();
   piedDePage();
@@ -649,6 +677,8 @@
   fiche();
   compteurs();
   contact();
+  logoGeant();
+  defilementFluide();
   majPanier();
   reveal();
 })();
