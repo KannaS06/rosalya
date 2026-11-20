@@ -1066,3 +1066,4 @@ body { font-size: 15px; letter-spacing: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .carousel__slide { transition: none !important; } }
 @media (max-width: 900px) { .carousel__arrows { top: 22%; } }
+.carousel__slide + .carousel__slide { transform: translateX(100%); }
