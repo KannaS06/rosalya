@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "redirects": [
     { "source": "/a-propos", "destination": "/a-propos.html", "permanent": true },
     { "source": "/contact", "destination": "/contact.html", "permanent": true },
