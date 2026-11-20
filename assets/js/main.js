@@ -48,7 +48,6 @@
                 <a href="boutique.html" aria-haspopup="true"${page === "boutique" || page === "produit" ? ' aria-current="page"' : ""}>Boutique</a>
                 <div class="nav-drop__panel">
                   <div class="nav-drop__links">
-                    <a href="boutique.html">Tous les soins <span>${PRODUITS.length}</span></a>
                     <a href="boutique.html?cat=iconiques">Les iconiques <span>${PRODUITS.filter((p) => p.iconique).length}</span></a>
                     ${navLiens.slice(1).map(([h, t, k]) => `<a href="${h}">${t} <span>${PRODUITS.filter((p) => p.categorie === k).length}</span></a>`).join("")}
                   </div>
@@ -72,7 +71,6 @@
         </div>
       </header>
       <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile" data-lenis-prevent>
-        <a href="boutique.html">Tous les soins</a>
         ${navLiens.map(([h, t]) => `<a href="${h}">${t}</a>`).join("")}
         <span class="label">Rosalya</span>
         <a href="a-propos.html">À propos</a>
@@ -442,38 +440,56 @@
       titre: "Concentrés d’actifs", lignes: ["Quatre sérums. Un besoin chacun.", "Après la lotion, avant la crème."], bas: "Étape 3 · Traiter" },
     cremes: { visuel: ["textures-cremes", "Textures de crèmes"], rituel: ["regard", "Gros plan sur un regard"],
       titre: "Sceller les bienfaits", lignes: ["Confort, hydratation, protection.", "Après le sérum, matin et/ou soir."], bas: "Étape 4 · Hydrater" },
-    "soins-specifiques": { visuel: ["masque-argile", "Masque à l’argile sur le visage"], rituel: ["gouttes-huile", "Gouttes d’huile et de gel"],
+    "soins-specifiques": { visuel: ["masque-argile", "Masque à l’argile sur le visage"], rituel: ["mousse-gel", "Mousse du gel nettoyant"],
       titre: "Compléter le rituel", lignes: ["Du nettoyage fondamental", "aux huiles précieuses pour la nuit."], bas: "Nettoyer · Tonifier · Nourrir" },
-    iconiques: { visuel: ["peaux", "Quatre femmes aux carnations différentes"], rituel: ["mousse-gel", "Mousse du gel nettoyant"],
+    iconiques: { visuel: ["peaux", "Quatre femmes aux carnations différentes"], rituel: ["regard", "Gros plan sur un regard"],
       titre: "L’essentiel Rosalya", lignes: ["Quatre best-sellers.", "Une routine complète."], bas: "Nettoyer · Traiter · Hydrater" },
   };
 
+  /* Tuile produit plein cadre (étiquette en surimpression) */
+  function tuile(p, cls = "") {
+    return `<article class="tile-p ${cls}">
+      <a class="tile-p__link" href="${urlProduit(p)}">
+        <img src="${img(p, true)}" alt="${esc(p.nom + " – " + p.actifs)}" loading="lazy" width="700" height="875">
+        <span class="tile-p__top"><strong>${esc(p.nom)}</strong><span>${esc(p.actifs)}</span></span>
+        <span class="tile-p__bottom"><span>Voir le produit</span><span>${euro(p.prix)}</span></span>
+      </a>
+      <button class="tile-p__plus" data-add="${p.slug}" aria-label="Ajouter ${esc(p.nom)} au panier">+</button>
+    </article>`;
+  }
+  const photo = (nom, alt, cls = "", legende = "", lien = "") => `
+    <figure class="tile-ph ${cls}">
+      <img src="assets/img/photos/${nom}.webp" alt="${esc(alt)}" loading="lazy">
+      ${legende ? `<figcaption>${lien ? `<a href="${lien}">` : ""}<span>${legende}</span>${lien ? `<span>Lire plus</span></a>` : ""}</figcaption>` : ""}
+    </figure>`;
+  const entete = (k, info) => `<header class="showcase__head">
+      <h2 class="showcase__title"><a href="boutique.html?cat=${k}">${info.label}</a></h2>
+      <p class="showcase__intro">${esc(info.intro)}</p>
+    </header>`;
+
+  /* Soins spécifiques : grille aérée avec cases vides */
+  function vitrineAeree(k, liste, avecTitre) {
+    const info = CATS[k], [a, b, c, d, e, ...reste] = liste;
+    return `<section class="showcase reveal">
+      <div class="airy${liste.length === 4 ? " airy--4" : ""}">
+        <div class="airy__text">
+          ${avecTitre ? `<h2 class="showcase__title"><a href="boutique.html?cat=${k}">${info.label}</a></h2><p>${esc(info.intro)}</p>` : `<h2 class="showcase__title">${VITRINE[k].titre}</h2><p>${VITRINE[k].lignes.map(esc).join(" ")}</p>`}
+          <a class="link" href="boutique.html?cat=${k}">Tout voir</a>
+        </div>
+        ${a ? tuile(a, "tile-p--soft airy__a") : ""}
+        ${b ? tuile(b, "tile-p--soft airy__b") : ""}
+        ${c ? tuile(c, "tile-p--soft airy__c") : ""}
+        ${d ? tuile(d, "tile-p--soft airy__d") : ""}
+        ${e ? tuile(e, "tile-p--soft airy__e") : ""}
+        ${reste.map((p) => tuile(p, "tile-p--soft")).join("")}
+        ${photo(VITRINE[k].visuel[0], VITRINE[k].visuel[1], "airy__photo")}
+      </div>
+    </section>`;
+  }
+
   function vitrine(k, liste, avecTitre) {
     if (!liste.length) return "";
-    const v = VITRINE[k], info = CATS[k];
-    const lignes = Math.ceil(liste.length / 2);
-    const cases = liste.map((p, n) => `
-      <article class="cell">
-        <a class="cell__link" href="${urlProduit(p)}">
-          <span class="cell__num">${String(n + 1).padStart(2, "0")}</span>
-          <img src="${img(p, true)}" alt="${esc(p.nom + " – " + p.actifs)}" loading="lazy" width="700" height="875">
-          <span class="cell__meta"><strong>${esc(p.nom)}</strong><span>${euro(p.prix)}</span></span>
-        </a>
-        <button class="cell__plus" data-add="${p.slug}" aria-label="Ajouter ${esc(p.nom)} au panier">+</button>
-      </article>`).join("");
-    const caseTexte = liste.length % 2 ? `<div class="cell cell--text"><p>${esc(info.intro)}</p></div>` : "";
-    return `
-      <section class="showcase reveal">
-        ${avecTitre ? `<header class="showcase__head">
-          <h2 class="showcase__title"><a href="boutique.html?cat=${k}">${info.label}</a></h2>
-          <p class="showcase__intro">${esc(info.intro)}</p>
-        </header>` : ""}
-        <div class="showcase__grid" style="--rows:${lignes}">
-          <figure class="showcase__visual"><img src="assets/img/photos/${v.visuel[0]}.webp" alt="${esc(v.visuel[1])}" loading="lazy"></figure>
-          ${cases}${caseTexte}
-        </div>
-        <ul class="showcase__actifs">${liste.map((p) => `<li>${esc(p.actifs)}</li>`).join("")}</ul>
-      </section>`;
+    return vitrineAeree(k, liste, avecTitre);
   }
 
   function rituel(k, liste) {
@@ -495,11 +511,11 @@
     const grid = $("#shop-grid");
     if (!grid) return;
     const params = new URLSearchParams(location.search);
-    let cat = params.get("cat") || "tous";
-    if (cat !== "tous" && !CATS[cat]) cat = "tous";
+    let cat = params.get("cat") || "iconiques";
+    if (!CATS[cat]) cat = "iconiques";
     let tri = params.get("tri") || "defaut";
 
-    const filtres = [["tous", "Tous les soins"], ...Object.entries(CATS).map(([k, v]) => [k, v.label])];
+    const filtres = [...Object.entries(CATS).map(([k, v]) => [k, v.label])];
     const compte = (k) =>
       k === "tous" ? PRODUITS.length : k === "iconiques" ? PRODUITS.filter((p) => p.iconique).length : PRODUITS.filter((p) => p.categorie === k).length;
 
@@ -542,7 +558,7 @@
 
     function majUrl() {
       const u = new URL(location.href);
-      cat === "tous" ? u.searchParams.delete("cat") : u.searchParams.set("cat", cat);
+      u.searchParams.set("cat", cat);
       tri === "defaut" ? u.searchParams.delete("tri") : u.searchParams.set("tri", tri);
       history.replaceState(null, "", u);
       $$(".nav--left a").forEach((a) => {
