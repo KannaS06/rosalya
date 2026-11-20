@@ -1224,3 +1224,20 @@ html.lenis, html.lenis body { height: auto; }
   .ritual__img { aspect-ratio: 4 / 5; order: -1; }
   .ritual__foot { margin-top: 12px; }
 }
+
+/* v11 - vitrines pleine largeur, sans marges */
+.showcase__grid,
+.showcase__actifs,
+.ritual {
+  width: 100vw; max-width: none;
+  margin-left: calc(50% - 50vw); margin-right: 0;
+}
+.showcase__grid { gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.showcase__grid .cell { border: 0; border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.showcase__grid .cell:nth-last-child(-n+2) { border-bottom: 0; }
+.showcase__actifs { padding-left: var(--gutter); padding-right: var(--gutter); border-top: 0; margin-top: 0; padding-top: 16px; }
+@media (max-width: 900px) {
+  .showcase__grid .cell:nth-child(even) { border-left: 0; }
+  .showcase__grid .cell { border-left: 1px solid var(--line); }
+  .showcase__grid > .cell:nth-of-type(odd) { border-left: 0; }
+}
