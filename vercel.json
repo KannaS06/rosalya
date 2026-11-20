@@ -1,0 +1,26 @@
+{
+  "redirects": [
+    { "source": "/a-propos", "destination": "/a-propos.html", "permanent": true },
+    { "source": "/contact", "destination": "/contact.html", "permanent": true },
+    { "source": "/panier", "destination": "/panier.html", "permanent": true },
+    { "source": "/les-iconiques", "destination": "/boutique.html?cat=iconiques", "permanent": true },
+    { "source": "/cremes", "destination": "/boutique.html?cat=cremes", "permanent": true },
+    { "source": "/serums", "destination": "/boutique.html?cat=serums", "permanent": true },
+    { "source": "/soins-specifiques", "destination": "/boutique.html?cat=soins-specifiques", "permanent": true },
+    { "source": "/categorie-produit/:cat*", "destination": "/boutique.html", "permanent": true },
+    { "source": "/produit/creme-anti-oxydante-the-vert-vitamine-e", "destination": "/produit.html?p=creme-anti-oxydante", "permanent": true },
+    { "source": "/produit/creme-eclat-subtil-vitamine-b3-extrait-de-pivoine", "destination": "/produit.html?p=creme-eclat-subtil", "permanent": true },
+    { "source": "/produit/creme-hydratante-beurre-de-karite-acide-hyaluronique", "destination": "/produit.html?p=creme-hydratante", "permanent": true },
+    { "source": "/produit/creme-reparatrice-ceramides-avoine-colloidale", "destination": "/produit.html?p=creme-reparatrice", "permanent": true },
+    { "source": "/produit/gel-nettoyant-doux-aloe-vera-glycerine-vegetale", "destination": "/produit.html?p=gel-nettoyant-doux", "permanent": true },
+    { "source": "/produit/huile-apaisante-calendula-camomille", "destination": "/produit.html?p=huile-apaisante", "permanent": true },
+    { "source": "/produit/huile-regenerante-rose-musquee-vitamine-e", "destination": "/produit.html?p=huile-regenerante", "permanent": true },
+    { "source": "/produit/lotion-equilibrante-eau-florale-dhamamelis-niacinamide", "destination": "/produit.html?p=lotion-equilibrante", "permanent": true },
+    { "source": "/produit/masque-creme-revitalisant", "destination": "/produit.html?p=masque-revitalisant", "permanent": true },
+    { "source": "/produit/serum-apaisant-centella-asiatica-camomille-blanche", "destination": "/produit.html?p=serum-apaisant", "permanent": true },
+    { "source": "/produit/serum-fermete-peptides-biomimetiques-extrait-de-lotus", "destination": "/produit.html?p=serum-fermete", "permanent": true },
+    { "source": "/produit/serum-hydratation-acide-hyaluronique-2-eau-de-rose-bio", "destination": "/produit.html?p=serum-hydratation", "permanent": true },
+    { "source": "/produit/serum-purete-niacinamide-5-zinc-pca", "destination": "/produit.html?p=serum-purete", "permanent": true },
+    { "source": "/produit/:slug*", "destination": "/boutique.html", "permanent": true }
+  ]
+}

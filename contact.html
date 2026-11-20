@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact · Rosalya</title>
+  <meta name="description" content="Contactez l’équipe Rosalya pour vous guider vers le rituel le mieux adapté à votre peau.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="contact">
+<div class="page">
+  <div data-header></div>
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <span class="label">Contact</span>
+        <h1 class="title-xl">Contactez l’équipe Rosalya.</h1>
+      </header>
+      <div class="contact">
+        <div class="contact__aside reveal">
+          <div class="prose">
+            <p class="lead" style="color:var(--ink)">Vous avez une question sur le choix de votre sérum, un besoin spécifique pour votre peau, ou une simple remarque ?</p>
+            <p class="muted">Nous sommes là pour vous guider vers le rituel le mieux adapté à votre bien-être. Remplissez le formulaire, et notre équipe reviendra vers vous dans les plus brefs délais pour vous apporter une réponse personnalisée et attentionnée.</p>
+          </div>
+          <div class="contact__img"><img src="assets/img/photos/regard.webp" alt="Gros plan sur un regard, peau lumineuse" loading="lazy" width="1036" height="817"></div>
+        </div>
+        <form class="form reveal reveal-delay-1" id="contact-form" novalidate>
+          <div class="field"><label for="nom">Nom</label><input id="nom" name="nom" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="sujet">Sujet</label>
+            <select id="sujet" name="sujet">
+              <option>Choisir mon soin</option>
+              <option>Ma commande</option>
+              <option>Retours et échanges</option>
+              <option>Autre question</option>
+            </select>
+          </div>
+          <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+          <div><button class="btn" type="submit">Envoyer</button></div>
+          <p class="form__msg" id="form-msg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </main>
+  <div data-footer></div>
+</div>
+<script src="assets/js/produits.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

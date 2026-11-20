@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tous les soins · Rosalya</title>
+  <meta name="description" content="Tous les soins Rosalya : sérums, crèmes et soins spécifiques, nommés d’après leurs actifs.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="boutique">
+<div class="page">
+  <div data-header></div>
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <span class="label">La collection</span>
+        <h1 class="title-xl" id="shop-title">Tous les soins</h1>
+        <p class="lead" id="shop-intro"></p>
+      </header>
+      <div class="toolbar">
+        <div class="filters" id="filters" role="group" aria-label="Filtrer par catégorie"></div>
+        <label class="sort"><span class="sort__label">Trier</span>
+          <select id="sort">
+            <option value="defaut">Sélection</option>
+            <option value="routine">Ordre de routine</option>
+            <option value="prix-asc">Prix croissant</option>
+            <option value="prix-desc">Prix décroissant</option>
+          </select>
+        </label>
+      </div>
+      <p class="results" id="shop-count" aria-live="polite"></p>
+      <div class="cells" id="shop-grid"></div>
+    </div>
+    <div class="section"></div>
+  </main>
+  <div data-footer></div>
+</div>
+<script src="assets/js/produits.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
