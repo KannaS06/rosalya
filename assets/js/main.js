@@ -436,6 +436,61 @@
   }
 
   /* ---------------- Page boutique ---------------- */
+  /* Vitrine d'une catégorie : grande image + cases produit + ligne des actifs */
+  const VITRINE = {
+    serums: { visuel: ["pipettes", "Pipettes de sérum"], rituel: ["deux-visages", "Deux visages côte à côte"],
+      titre: "Concentrés d’actifs", lignes: ["Quatre sérums. Un besoin chacun.", "Après la lotion, avant la crème."], bas: "Étape 3 · Traiter" },
+    cremes: { visuel: ["textures-cremes", "Textures de crèmes"], rituel: ["regard", "Gros plan sur un regard"],
+      titre: "Sceller les bienfaits", lignes: ["Confort, hydratation, protection.", "Après le sérum, matin et/ou soir."], bas: "Étape 4 · Hydrater" },
+    "soins-specifiques": { visuel: ["masque-argile", "Masque à l’argile sur le visage"], rituel: ["gouttes-huile", "Gouttes d’huile et de gel"],
+      titre: "Compléter le rituel", lignes: ["Du nettoyage fondamental", "aux huiles précieuses pour la nuit."], bas: "Nettoyer · Tonifier · Nourrir" },
+    iconiques: { visuel: ["peaux", "Quatre femmes aux carnations différentes"], rituel: ["mousse-gel", "Mousse du gel nettoyant"],
+      titre: "L’essentiel Rosalya", lignes: ["Quatre best-sellers.", "Une routine complète."], bas: "Nettoyer · Traiter · Hydrater" },
+  };
+
+  function vitrine(k, liste, avecTitre) {
+    if (!liste.length) return "";
+    const v = VITRINE[k], info = CATS[k];
+    const lignes = Math.ceil(liste.length / 2);
+    const cases = liste.map((p, n) => `
+      <article class="cell">
+        <a class="cell__link" href="${urlProduit(p)}">
+          <span class="cell__num">${String(n + 1).padStart(2, "0")}</span>
+          <img src="${img(p, true)}" alt="${esc(p.nom + " – " + p.actifs)}" loading="lazy" width="700" height="875">
+          <span class="cell__meta"><strong>${esc(p.nom)}</strong><span>${euro(p.prix)}</span></span>
+        </a>
+        <button class="cell__plus" data-add="${p.slug}" aria-label="Ajouter ${esc(p.nom)} au panier">+</button>
+      </article>`).join("");
+    const caseTexte = liste.length % 2 ? `<div class="cell cell--text"><p>${esc(info.intro)}</p></div>` : "";
+    return `
+      <section class="showcase reveal">
+        ${avecTitre ? `<header class="showcase__head">
+          <h2 class="showcase__title"><a href="boutique.html?cat=${k}">${info.label}</a></h2>
+          <p class="showcase__intro">${esc(info.intro)}</p>
+        </header>` : ""}
+        <div class="showcase__grid" style="--rows:${lignes}">
+          <figure class="showcase__visual"><img src="assets/img/photos/${v.visuel[0]}.webp" alt="${esc(v.visuel[1])}" loading="lazy"></figure>
+          ${cases}${caseTexte}
+        </div>
+        <ul class="showcase__actifs">${liste.map((p) => `<li>${esc(p.actifs)}</li>`).join("")}</ul>
+      </section>`;
+  }
+
+  function rituel(k, liste) {
+    const v = VITRINE[k];
+    if (!v) return "";
+    return `
+      <section class="ritual reveal">
+        <div class="ritual__text">
+          <h2>${v.titre}</h2>
+          <p class="ritual__lines">${v.lignes.map(esc).join("<br>")}</p>
+          <p class="ritual__index">Index des actifs<br>${liste.map((p) => esc(p.actifs)).join("<br>")}</p>
+          <p class="ritual__foot">${liste.length} soins<br>${v.bas}</p>
+        </div>
+        <figure class="ritual__img"><img src="assets/img/photos/${v.rituel[0]}.webp" alt="${esc(v.rituel[1])}" loading="lazy"></figure>
+      </section>`;
+  }
+
   function boutique() {
     const grid = $("#shop-grid");
     if (!grid) return;
@@ -470,7 +525,14 @@
       document.title = `${info ? info.label : "Tous les soins"} · Rosalya`;
 
       const peindre = () => {
-        grid.innerHTML = liste.map(carte).join("");
+        grid.className = "showcases";
+        if (cat === "tous") {
+          grid.innerHTML = ["serums", "cremes", "soins-specifiques"]
+            .map((k) => vitrine(k, liste.filter((p) => p.categorie === k), true))
+            .join("");
+        } else {
+          grid.innerHTML = vitrine(cat, liste, false) + rituel(cat, liste);
+        }
         reveal();
         grid.classList.remove("is-filtering");
       };

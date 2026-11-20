@@ -1149,3 +1149,78 @@ html.lenis, html.lenis body { height: auto; }
 .nav-drop__promo:hover .nav-drop__cta { color: var(--accent); }
 .header .nav .nav-drop__panel a { opacity: .65; }
 .header .nav .nav-drop__panel a:hover, .header .nav .nav-drop__panel .nav-drop__promo { opacity: 1; }
+
+/* =========================================================
+   v10 — vitrines de catégorie (boutique)
+   ========================================================= */
+.showcases { display: grid; gap: clamp(72px, 9vw, 140px); }
+
+.showcase__head {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end;
+  margin-bottom: clamp(20px, 2.4vw, 32px);
+}
+.showcase__title { font-size: clamp(28px, 3vw, 44px); font-weight: 400; letter-spacing: -.03em; line-height: 1; }
+.showcase__title a:hover { opacity: .6; }
+.showcase__intro { font-size: 12px; line-height: 1.55; color: var(--muted); max-width: 60ch; justify-self: end; }
+
+.showcase__grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  grid-template-rows: repeat(var(--rows), auto);
+  gap: 6px;
+}
+.showcase__visual { grid-row: 1 / span var(--rows); margin: 0; position: relative; overflow: hidden; background: #1d1c1a; min-height: 100%; }
+.showcase__visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
+.showcase:hover .showcase__visual img { transform: scale(1.03); }
+
+.cell { position: relative; border: 1px solid var(--line); background: var(--bg); }
+.cell__link { display: block; padding: 14px 14px 16px; }
+.cell__link img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--card); transition: transform .9s var(--ease); }
+.cell:hover .cell__link img { transform: scale(1.03); }
+.cell__num { position: absolute; top: 20px; left: 22px; z-index: 1; font-size: 11px; letter-spacing: .08em; color: var(--muted); }
+.cell__meta { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; font-size: 12px; }
+.cell__meta strong { font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+.cell__plus {
+  position: absolute; top: 18px; right: 18px; z-index: 2;
+  width: 34px; height: 34px; display: grid; place-items: center;
+  font-size: 26px; font-weight: 200; line-height: 1; color: var(--ink);
+  transition: transform .35s var(--ease);
+}
+.cell__plus:hover { transform: rotate(90deg); }
+.cell--text { display: flex; align-items: flex-start; padding: 18px; border-color: transparent; }
+.cell--text p { font-size: 12px; line-height: 1.6; color: var(--muted); }
+
+.showcase__actifs {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px 24px;
+  margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+
+/* Panneau noir « rituel » */
+.ritual {
+  display: grid; grid-template-columns: 1fr 1.5fr; min-height: min(92svh, 860px);
+  background: #141312; color: var(--white);
+  margin: 0 calc(-1 * var(--gutter));
+}
+.ritual__text { display: flex; flex-direction: column; gap: 22px; padding: clamp(28px, 4vw, 56px) var(--gutter); }
+.ritual__text h2 { font-size: clamp(26px, 2.6vw, 38px); font-weight: 400; letter-spacing: -.02em; line-height: 1.05; }
+.ritual__lines, .ritual__index, .ritual__foot { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.7; }
+.ritual__index { color: rgba(253,252,250,.7); }
+.ritual__foot { margin-top: auto; }
+.ritual__img { margin: 0; position: relative; overflow: hidden; }
+.ritual__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 900px) {
+  .showcase__head { grid-template-columns: 1fr; }
+  .showcase__intro { justify-self: start; }
+  .showcase__grid { grid-template-columns: 1fr 1fr; grid-template-rows: none; }
+  .showcase__visual { grid-row: auto; grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+  .cell__link { padding: 10px 10px 12px; }
+  .cell__num { top: 15px; left: 16px; }
+  .cell__plus { top: 10px; right: 10px; }
+  .cell__meta { flex-direction: column; gap: 2px; font-size: 11px; }
+  .cell--text { grid-column: 1 / -1; }
+  .ritual { grid-template-columns: 1fr; min-height: 0; }
+  .ritual__img { aspect-ratio: 4 / 5; order: -1; }
+  .ritual__foot { margin-top: 12px; }
+}
