@@ -957,3 +957,112 @@ body { font-size: 15px; letter-spacing: 0; }
 
 /* Le lien Boutique reste visible sur tablette/petit ecran */
 @media (min-width: 901px) { .nav--left a:first-child { display: inline-block; } }
+
+/* =========================================================
+   v5 — logo d'origine + carrousel d'accueil
+   ========================================================= */
+
+/* Logo « ROSALYA. » comme sur l'ancien site et les étiquettes : Ginger, sans espacement */
+.brand { letter-spacing: 0; font-size: 26px; }
+.footer__giant { letter-spacing: 0; }
+@media (max-width: 900px) { .brand { font-size: 23px; } }
+
+/* En-tête blanc au-dessus du carrousel (le logo reste visible) */
+.header--overlay:not(.is-scrolled) { color: var(--white); }
+.header--overlay:not(.is-scrolled) .brand { opacity: 1; pointer-events: auto; }
+.header--overlay:not(.is-scrolled) .nav a { opacity: .85; }
+.header--overlay:not(.is-scrolled) .nav a:hover { opacity: 1; }
+.header--overlay:not(.is-scrolled) .burger span { background: var(--white); }
+
+/* Carrousel */
+.carousel {
+  position: relative; overflow: hidden; color: var(--white); background: #3a3632;
+  margin-top: calc(-1 * var(--header-h));
+  height: min(100svh, 960px); min-height: 560px;
+}
+.carousel__slide {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden;
+  transition: opacity 1.1s var(--ease), visibility 1.1s;
+}
+.carousel__slide.is-active { opacity: 1; visibility: visible; }
+.carousel__slide img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1.06); transition: transform 7s linear;
+}
+.carousel__slide.is-active img { transform: scale(1); }
+.carousel__slide::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(29,28,26,.55), rgba(29,28,26,.15) 55%, rgba(29,28,26,.25));
+}
+.carousel__content {
+  position: absolute; z-index: 1; left: var(--gutter); right: var(--gutter); bottom: clamp(88px, 12vh, 140px);
+  max-width: 900px;
+}
+.carousel__content > * { opacity: 0; transform: translateY(16px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.carousel__slide.is-active .carousel__content > * { opacity: 1; transform: none; }
+.carousel__slide.is-active .carousel__content > :nth-child(2) { transition-delay: .12s; }
+.carousel__slide.is-active .carousel__content > :nth-child(3) { transition-delay: .24s; }
+.carousel__slide.is-active .carousel__content > :nth-child(4) { transition-delay: .36s; }
+.carousel__kicker { font-size: 13px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+.carousel__title {
+  font-family: var(--brand); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(44px, 7.2vw, 104px); line-height: 1.02; letter-spacing: 0;
+  margin: 14px 0 18px;
+}
+.carousel__text { font-size: 15px; line-height: 1.6; color: rgba(253,252,250,.85); max-width: 46ch; }
+.carousel__btn {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 26px; margin-top: 28px;
+  border: 1px solid var(--white); font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+  transition: background .3s var(--ease), color .3s var(--ease);
+}
+.carousel__btn:hover { background: var(--white); color: var(--ink); }
+
+.carousel__nav {
+  position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: 28px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.carousel__dots { display: flex; gap: 10px; }
+.carousel__dots button { width: 36px; height: 20px; position: relative; }
+.carousel__dots button::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(253,252,250,.45);
+  transition: background .3s, height .3s;
+}
+.carousel__dots button[aria-selected="true"]::before { background: var(--white); height: 2px; }
+.carousel__arrows { display: flex; gap: 8px; }
+.carousel__arrow {
+  width: 44px; height: 44px; border: 1px solid rgba(253,252,250,.55); border-radius: 50%;
+  display: grid; place-items: center; transition: background .25s, color .25s, border-color .25s;
+}
+.carousel__arrow:hover { background: var(--white); color: var(--ink); border-color: var(--white); }
+.carousel__arrow svg { width: 16px; height: 16px; }
+
+@media (max-width: 900px) {
+  .carousel { height: 82svh; min-height: 520px; }
+  .carousel__content { bottom: 92px; }
+  .carousel__text { font-size: 14px; }
+  .carousel__arrows { display: none; }
+}
+
+/* v6 — carrousel en glissement + flèches sur les côtés */
+.carousel__slide {
+  opacity: 1; visibility: visible;
+  transition: transform .9s cubic-bezier(.65, 0, .35, 1);
+  will-change: transform;
+}
+.carousel__nav { position: static; }
+.carousel__dots { position: absolute; z-index: 2; left: 50%; transform: translateX(-50%); bottom: 28px; }
+.carousel__arrows {
+  position: absolute; z-index: 2; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+  display: flex; justify-content: space-between; padding: 0 clamp(12px, 2vw, 32px);
+  pointer-events: none;
+}
+.carousel__arrow { pointer-events: auto; width: 52px; height: 52px; background: rgba(29,28,26,.15); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.carousel__content { left: calc(var(--gutter) + 72px); }
+@media (max-width: 900px) {
+  .carousel__arrows { display: flex; top: 34%; padding: 0 10px; }
+  .carousel__arrow { width: 40px; height: 40px; }
+  .carousel__content { left: var(--gutter); }
+}
+@media (prefers-reduced-motion: reduce) { .carousel__slide { transition: none !important; } }
+@media (max-width: 900px) { .carousel__arrows { top: 22%; } }

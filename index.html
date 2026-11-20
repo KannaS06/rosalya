@@ -16,17 +16,34 @@
   <div data-header></div>
 
   <main>
-    <!-- Héros -->
-    <section class="stage">
-      <div class="stage__media">
-        <img class="stage__img" src="assets/img/photos/hero-visage.webp" alt="Femme allongée, un soin crème appliqué sur le visage" width="2000" height="2452" fetchpriority="high">
-        <div class="stage__shade"></div>
-        <div class="stage__inner">
-          <div class="stage__meta" style="justify-content:flex-end">
-            <a href="boutique.html">Découvrir les soins</a>
-          </div>
-          <h1 class="wordmark"><span>Rosalya.</span><span class="sr-only"> La beauté, en douceur.</span></h1>
-          <div class="stage__foot"><span>La beauté, en douceur</span><span>Créé sans cruauté</span></div>
+    <!-- Bannière d'accueil : carrousel -->
+    <section class="carousel" id="carousel" aria-roledescription="carrousel" aria-label="À la une">
+      <div class="carousel__slide is-active" role="group" aria-roledescription="diapositive" aria-label="1 sur 2">
+        <img src="assets/img/photos/hero-visage.webp" alt="Femme allongée, un soin crème appliqué sur le visage" width="2000" height="2452" fetchpriority="high" style="object-position:50% 72%">
+        <div class="carousel__content">
+          <p class="carousel__kicker">Rosalya</p>
+          <h1 class="carousel__title">La beauté, en douceur.</h1>
+          <p class="carousel__text">Des soins essentiels, formulés avec transparence et créés sans cruauté. Une routine simple, pensée pour respecter votre peau et le vivant.</p>
+          <a class="carousel__btn" href="boutique.html?cat=iconiques">Découvrez les essentiels</a>
+        </div>
+      </div>
+      <div class="carousel__slide" role="group" aria-roledescription="diapositive" aria-label="2 sur 2">
+        <img src="assets/img/photos/mousse-gel.webp" alt="Visage nettoyé avec une mousse douce" width="1080" height="608" loading="lazy">
+        <div class="carousel__content">
+          <p class="carousel__kicker">Nouveauté</p>
+          <h2 class="carousel__title">Le geste essentiel redéfini</h2>
+          <p class="carousel__text">Notre nouveau gel nettoie efficacement et en douceur. Enrichi en Aloe vera apaisant, il élimine les impuretés et le maquillage sans agresser, laissant votre peau fraîche et parfaitement préparée.</p>
+          <a class="carousel__btn" href="produit.html?p=gel-nettoyant-doux">Voir le produit</a>
+        </div>
+      </div>
+      <div class="carousel__nav">
+        <div class="carousel__dots" role="tablist" aria-label="Choisir une diapositive">
+          <button role="tab" aria-selected="true" aria-label="Diapositive 1"></button>
+          <button role="tab" aria-selected="false" aria-label="Diapositive 2"></button>
+        </div>
+        <div class="carousel__arrows">
+          <button class="carousel__arrow" data-dir="-1" aria-label="Diapositive précédente"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="M10 3 5 8l5 5"/></svg></button>
+          <button class="carousel__arrow" data-dir="1" aria-label="Diapositive suivante"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="m6 3 5 5-5 5"/></svg></button>
         </div>
       </div>
     </section>

@@ -75,7 +75,7 @@
       a.addEventListener("click", () => document.body.classList.remove("menu-open"))
     );
 
-    const scene = $(".stage__media");
+    const scene = $(".carousel");
     const petit = window.matchMedia("(max-width: 900px)");
     const seuil = () => (scene && !petit.matches ? Math.max(40, scene.offsetHeight - header.offsetHeight - 40) : 20);
     const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > seuil());
@@ -302,6 +302,54 @@
         <p class="card__price">${euro(p.prix)}</p>
       </div>
     </article>`;
+  }
+
+  /* Carrousel de la bannière d'accueil */
+  function carrousel() {
+    const c = $("#carousel");
+    if (!c) return;
+    const slides = $$(".carousel__slide", c);
+    const dots = $$(".carousel__dots button", c);
+    const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let i = 0, timer;
+    const aller = (n, sens) => {
+      const suivant = (n + slides.length) % slides.length;
+      if (suivant !== i) {
+        const dir = sens || (n > i ? 1 : -1);
+        const entrant = slides[suivant], sortant = slides[i];
+        // place la diapositive entrante sur le côté, sans animation
+        entrant.style.transition = "none";
+        entrant.style.transform = `translateX(${dir * 100}%)`;
+        void entrant.offsetWidth;
+        entrant.style.transition = "";
+        entrant.style.transform = "translateX(0)";
+        sortant.style.transform = `translateX(${-dir * 100}%)`;
+      }
+      i = suivant;
+      slides.forEach((s, k) => {
+        s.classList.toggle("is-active", k === i);
+        s.setAttribute("aria-hidden", k !== i);
+        $$("a", s).forEach((a) => (a.tabIndex = k === i ? 0 : -1));
+      });
+      dots.forEach((d, k) => d.setAttribute("aria-selected", k === i));
+    };
+    slides.forEach((s, k) => (s.style.transform = k === 0 ? "translateX(0)" : "translateX(100%)"));
+    const lancer = () => { if (reduit) return; clearInterval(timer); timer = setInterval(() => aller(i + 1, 1), 6000); };
+    dots.forEach((d, k) => d.addEventListener("click", () => { aller(k); lancer(); }));
+    $$(".carousel__arrow", c).forEach((b) => b.addEventListener("click", () => { aller(i + parseInt(b.dataset.dir, 10), parseInt(b.dataset.dir, 10)); lancer(); }));
+    c.addEventListener("mouseenter", () => clearInterval(timer));
+    c.addEventListener("mouseleave", lancer);
+    c.addEventListener("focusin", () => clearInterval(timer));
+    let x0 = null;
+    c.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    c.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) { aller(i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); lancer(); }
+      x0 = null;
+    });
+    aller(0);
+    lancer();
   }
 
   /* Slider à onglets (accueil) */
@@ -596,6 +644,7 @@
   accordeons();
   grilles();
   sliderOnglets();
+  carrousel();
   boutique();
   fiche();
   compteurs();
