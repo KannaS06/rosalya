@@ -1103,3 +1103,49 @@ html.lenis, html.lenis body { height: auto; }
 .carousel__content > *,
 .carousel__slide.is-active .carousel__content > * { opacity: 1; transform: none; transition: none; }
 @media (prefers-reduced-motion: reduce) { .carousel__track { transition: none !important; } }
+
+/* v8 — menu déroulant au survol de « Boutique » */
+.nav-drop { position: relative; display: flex; align-items: center; }
+.nav-drop > a::before { content: ""; position: absolute; left: -12px; right: -12px; top: 100%; height: 16px; } /* pont pour garder le survol */
+.nav-drop__panel {
+  position: absolute; top: calc(100% + 14px); left: -20px; z-index: 60;
+  min-width: 220px; padding: 10px 0;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s;
+}
+.nav-drop:hover .nav-drop__panel,
+.nav-drop:focus-within .nav-drop__panel { opacity: 1; visibility: visible; transform: none; }
+.nav .nav-drop__panel a,
+.nav--left .nav-drop__panel a:first-child {
+  display: flex !important; justify-content: space-between; gap: 24px;
+  padding: 9px 20px; color: var(--ink); opacity: .65;
+  transition: opacity .2s, background .2s;
+}
+.nav .nav-drop__panel a:hover { opacity: 1; background: var(--surface); }
+.nav-drop__panel a span { color: var(--muted); font-size: 12px; }
+@media (min-width: 901px) { .nav--left .nav-drop > a:first-child { display: inline-block; } }
+
+/* v9 — vignette « pub » dans le menu Boutique */
+.nav-drop__panel {
+  display: grid; grid-template-columns: 220px 190px; gap: 8px;
+  min-width: 0; padding: 10px 10px 10px 0;
+}
+.nav-drop__links { padding: 0; }
+.nav .nav-drop__panel .nav-drop__promo,
+.nav--left .nav-drop__panel .nav-drop__promo:first-child {
+  display: flex !important; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 0; opacity: 1; background: none; white-space: normal;
+}
+.nav .nav-drop__panel .nav-drop__promo:hover { background: none; }
+.nav-drop__img { display: block; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--card); margin-bottom: 10px; }
+.nav-drop__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.nav-drop__promo:hover .nav-drop__img img { transform: scale(1.06); }
+.nav-drop__tag { font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.nav-drop__promo strong { font-weight: 500; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+.nav-drop__sub { font-size: 12px; color: var(--muted); }
+.nav-drop__cta { margin-top: 8px; font-size: 12px; font-weight: 500; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.nav-drop__promo:hover .nav-drop__cta { color: var(--accent); }
+.header .nav .nav-drop__panel a { opacity: .65; }
+.header .nav .nav-drop__panel a:hover, .header .nav .nav-drop__panel .nav-drop__promo { opacity: 1; }

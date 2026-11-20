@@ -44,7 +44,23 @@
           <div class="header__left">
             <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
             <nav class="nav nav--left" aria-label="Navigation">
-              <a href="boutique.html"${page === "boutique" || page === "produit" ? ' aria-current="page"' : ""}>Boutique</a>
+              <div class="nav-drop">
+                <a href="boutique.html" aria-haspopup="true"${page === "boutique" || page === "produit" ? ' aria-current="page"' : ""}>Boutique</a>
+                <div class="nav-drop__panel">
+                  <div class="nav-drop__links">
+                    <a href="boutique.html">Tous les soins <span>${PRODUITS.length}</span></a>
+                    <a href="boutique.html?cat=iconiques">Les iconiques <span>${PRODUITS.filter((p) => p.iconique).length}</span></a>
+                    ${navLiens.slice(1).map(([h, t, k]) => `<a href="${h}">${t} <span>${PRODUITS.filter((p) => p.categorie === k).length}</span></a>`).join("")}
+                  </div>
+                  <a class="nav-drop__promo" href="produit.html?p=gel-nettoyant-doux">
+                    <span class="nav-drop__img"><img src="assets/img/produits/gel-nettoyant-doux-sm.webp" alt="" loading="lazy" width="700" height="875"></span>
+                    <span class="nav-drop__tag">Nouveauté</span>
+                    <strong>Gel Nettoyant Doux</strong>
+                    <span class="nav-drop__sub">Le geste essentiel, redéfini.</span>
+                    <span class="nav-drop__cta">Découvrir →</span>
+                  </a>
+                </div>
+              </div>
               <a href="a-propos.html"${current("a-propos")}>À propos</a>
               <a href="contact.html"${current("contact")}>Contact</a>
             </nav>
