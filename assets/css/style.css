@@ -954,3 +954,6 @@ body { font-size: 15px; letter-spacing: 0; }
 
 /* Photos produit verticales (4:5) */
 .pdp__main { aspect-ratio: 4 / 5; }
+
+/* Le lien Boutique reste visible sur tablette/petit ecran */
+@media (min-width: 901px) { .nav--left a:first-child { display: inline-block; } }
