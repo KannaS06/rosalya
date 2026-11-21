@@ -590,7 +590,7 @@
     "creme-reparatrice": "Crème riche étalée en vagues",
     "creme-anti-oxydante": "Crème lisse en spirale",
     "creme-eclat-subtil": "Crème nacrée aux reflets satinés",
-    "gel-nettoyant-doux": "Bulles de gel transparent",
+    "gel-nettoyant-doux": "Mousse du gel nettoyant massée sur le visage",
     "lotion-equilibrante": "Filet d’eau coulant dans une main",
     "masque-revitalisant": "Visage riant couvert d’un masque à l’argile rose",
     "huile-regenerante": "Goutte d’huile dorée déposée sur la pommette",
