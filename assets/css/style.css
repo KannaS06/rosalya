@@ -1396,8 +1396,8 @@ html.lenis, html.lenis body { height: auto; }
   .tile-p:hover .tile-p__top, .tile-p:hover .tile-p__top span, .tile-p:hover .tile-p__bottom, .tile-p:hover .tile-p__plus { color: var(--white); }
 }
 
-/* Bannière boutique en paysage : texte 5/12, image 7/12 */
-.shop-hero { grid-template-columns: 5fr 7fr; }
+/* Bannière boutique en paysage : moitié texte, moitié image */
+.shop-hero { grid-template-columns: 1fr 1fr; }
 .shop-hero__img, .shop-hero__img--large { aspect-ratio: auto; height: 100%; }
 .shop-hero__title { font-size: clamp(36px, 4.2vw, 64px); }
 @media (max-width: 900px) {
