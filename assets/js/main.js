@@ -442,7 +442,7 @@
       titre: "Sceller les bienfaits", lignes: ["Confort, hydratation, protection.", "Après le sérum, matin et/ou soir."], bas: "Étape 4 · Hydrater" },
     "soins-specifiques": { visuel: ["masque-argile", "Masque à l’argile sur le visage"], rituel: ["mousse-gel", "Mousse du gel nettoyant"],
       titre: "Compléter le rituel", lignes: ["Du nettoyage fondamental", "aux huiles précieuses pour la nuit."], bas: "Nettoyer · Tonifier · Nourrir" },
-    iconiques: { visuel: ["peaux", "Quatre femmes aux carnations différentes"], rituel: ["regard", "Gros plan sur un regard"],
+    iconiques: { visuel: ["iconiques", "Les quatre soins iconiques Rosalya posés sur des blocs de pierre"], rituel: ["regard", "Gros plan sur un regard"],
       titre: "L’essentiel Rosalya", lignes: ["Quatre best-sellers.", "Une routine complète."], bas: "Nettoyer · Traiter · Hydrater" },
   };
 
