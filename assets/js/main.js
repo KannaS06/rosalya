@@ -580,15 +580,21 @@
   }
 
   /* ---------------- Fiche produit ---------------- */
-  const PHOTO_CAT = {
-    serums: ["pipettes", "Pipettes de sérum"],
-    cremes: ["textures-cremes", "Textures de crèmes"],
-    "soins-specifiques": ["gouttes-huile", "Gouttes d’huile et de gel"],
-  };
-  const PHOTO_PRODUIT = {
-    "gel-nettoyant-doux": ["mousse-gel", "Mousse du gel nettoyant sur le visage"],
-    "masque-revitalisant": ["masque-argile", "Masque appliqué sur le visage"],
-    "serum-fermete": ["deux-visages", "Deux visages, deux âges"],
+  /* 2e photo de la fiche : texture du produit (assets/img/photos/texture-<slug>.webp) */
+  const TEXTURES = {
+    "serum-purete": "Goutte de sérum transparent tombant d’une pipette",
+    "serum-hydratation": "Gel transparent étalé, ponctué de microbulles",
+    "serum-apaisant": "Trait de sérum laiteux sur fond blanc",
+    "serum-fermete": "Goutte de sérum laiteux au bout d’une pipette",
+    "creme-hydratante": "Texture de crème blanche onctueuse",
+    "creme-reparatrice": "Crème riche étalée en vagues",
+    "creme-anti-oxydante": "Crème lisse en spirale",
+    "creme-eclat-subtil": "Crème nacrée aux reflets satinés",
+    "gel-nettoyant-doux": "Bulles de gel transparent",
+    "lotion-equilibrante": "Filet d’eau coulant dans une main",
+    "masque-revitalisant": "Visage riant couvert d’un masque à l’argile rose",
+    "huile-regenerante": "Goutte d’huile dorée déposée sur la pommette",
+    "huile-apaisante": "Vague d’huile claire",
   };
 
   function fiche() {
@@ -601,7 +607,6 @@
       return;
     }
     const cat = CATS[p.categorie];
-    const [photo, alt] = PHOTO_PRODUIT[p.slug] || PHOTO_CAT[p.categorie];
     document.title = `${p.nom} – ${p.actifs} · Rosalya`;
     const meta = $('meta[name="description"]');
     if (meta) meta.setAttribute("content", p.resume);
@@ -618,7 +623,7 @@
       <div class="pdp">
         <div class="pdp__media">
           <div class="pdp__main"><img src="${img(p)}" alt="${esc(p.nom + " – " + p.actifs)}" width="1400" height="1400"></div>
-          <div class="pdp__second reveal"><img src="assets/img/photos/${photo}.webp" alt="${esc(alt)}" loading="lazy"></div>
+          <div class="pdp__second reveal"><img src="assets/img/photos/texture-${p.slug}.webp" alt="${esc(TEXTURES[p.slug] || "")}" loading="lazy"></div>
         </div>
         <div class="pdp__info">
           <span class="label label--accent">${p.nouveau ? "Nouveauté · " : p.iconique ? "Iconique · " : ""}${cat.label}</span>

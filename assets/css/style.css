@@ -1343,3 +1343,6 @@ html.lenis, html.lenis body { height: auto; }
 .toolbar { box-shadow: 0 0 0 100vmax var(--bg); clip-path: inset(0 -100vmax); border-bottom: 0; }
 .toolbar::after { content: ""; position: absolute; left: -100vmax; right: -100vmax; bottom: 0; height: 1px; background: var(--line); }
 
+
+/* Fiche produit : texture au même format que le packshot */
+.pdp__second { aspect-ratio: 4 / 5; }
