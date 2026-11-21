@@ -508,7 +508,7 @@
         ${d ? tuile(d, "tile-p--soft airy__d") : ""}
         ${e ? tuile(e, "tile-p--soft airy__e") : ""}
         ${reste.map((p) => tuile(p, "tile-p--soft")).join("")}
-        ${photo(VITRINE[k].photo[0], VITRINE[k].photo[1], "airy__photo")}
+        ${photo(VITRINE[k].visuel[0], VITRINE[k].visuel[1], "airy__photo")}
       </div>
     </section>`;
   }
@@ -536,10 +536,10 @@
   /* Bannière en tête de chaque catégorie */
   const BANNIERES = {
     tous: ["peaux", "Quatre visages, quatre peaux différentes"],
-    iconiques: VITRINE.iconiques.visuel,
-    cremes: VITRINE.cremes.visuel,
-    serums: VITRINE.serums.visuel,
-    "soins-specifiques": VITRINE["soins-specifiques"].visuel,
+    iconiques: VITRINE.iconiques.photo, /* provisoire : en attente des images de bannière */
+    cremes: VITRINE.cremes.photo,
+    serums: VITRINE.serums.photo,
+    "soins-specifiques": VITRINE["soins-specifiques"].photo,
   };
   const INTRO_TOUS = "Des formules épurées, enrichies de concentrations optimales d’actifs ciblés et d’extraits botaniques. Chaque soin est nommé d’après ses ingrédients clés.";
 
