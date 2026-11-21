@@ -535,11 +535,11 @@
 
   /* Bannière en tête de chaque catégorie */
   const BANNIERES = {
-    tous: ["peaux", "Quatre visages, quatre peaux différentes"],
-    iconiques: VITRINE.iconiques.photo, /* provisoire : en attente des images de bannière */
-    cremes: VITRINE.cremes.photo,
-    serums: VITRINE.serums.photo,
-    "soins-specifiques": VITRINE["soins-specifiques"].photo,
+    tous: ["banniere-tous", "Visage à fleur d’eau, yeux fermés"],
+    iconiques: ["banniere-iconiques", "Peau lumineuse et nourrie, yeux fermés"],
+    cremes: ["banniere-cremes", "Visage aux taches de rousseur, traits de crème blanche sur la peau"],
+    serums: ["banniere-serums", "Goutte de sérum déposée sous l’œil avec une pipette"],
+    "soins-specifiques": ["banniere-soins-specifiques", "Visage couvert d’un masque à l’argile rose craquelé"],
   };
   const INTRO_TOUS = "Des formules épurées, enrichies de concentrations optimales d’actifs ciblés et d’extraits botaniques. Chaque soin est nommé d’après ses ingrédients clés.";
 
@@ -573,7 +573,6 @@
       const im = $("#shop-hero-img");
       im.src = `assets/img/photos/${nom}.webp`;
       im.alt = alt;
-      $("#shop-hero-fig").classList.toggle("shop-hero__img--large", cat === "tous");
       $("#shop-title").textContent = info ? info.label : "Tous les soins";
       $("#shop-intro").textContent = info ? info.intro : INTRO_TOUS;
       document.title = `${info ? info.label : "Tous les soins"} · Rosalya`;
