@@ -536,7 +536,7 @@
   /* Bannière en tête de chaque catégorie */
   const BANNIERES = {
     tous: ["banniere-tous", "Visage à fleur d’eau, yeux fermés"],
-    iconiques: ["banniere-iconiques", "Peau lumineuse et nourrie, yeux fermés"],
+    iconiques: ["banniere-iconiques", "Mousse nettoyante massée du bout des doigts sur le visage"],
     cremes: ["banniere-cremes", "Visage aux taches de rousseur, traits de crème blanche sur la peau"],
     serums: ["banniere-serums", "Goutte de sérum déposée sous l’œil avec une pipette"],
     "soins-specifiques": ["banniere-soins-specifiques", "Visage couvert d’un masque à l’argile rose craquelé"],
