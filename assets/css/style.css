@@ -1409,3 +1409,8 @@ html.lenis, html.lenis body { height: auto; }
 .contact__img { aspect-ratio: 3 / 4; }
 .contact .form { align-content: start; align-self: start; }
 .contact .field { align-content: start; }
+
+
+/* Duo accueil : scène du gel, voile plus marqué pour lire la légende */
+.duo__item--scene img { object-position: 50% 30%; }
+.duo__item--scene::after { background: linear-gradient(to top, rgba(20,18,16,.72), rgba(20,18,16,.25) 32%, transparent 55%); }

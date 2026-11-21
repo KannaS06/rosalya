@@ -535,10 +535,10 @@
 
   /* Bannière en tête de chaque catégorie */
   const BANNIERES = {
-    tous: ["banniere-tous", "Visage à fleur d’eau, yeux fermés"],
+    tous: ["banniere-tous", "Deux visages côte à côte, peaux lumineuses"],
     iconiques: ["banniere-iconiques", "Mousse nettoyante massée du bout des doigts sur le visage"],
-    cremes: ["banniere-cremes", "Visage aux taches de rousseur, traits de crème blanche sur la peau"],
-    serums: ["banniere-serums", "Goutte de sérum déposée sous l’œil avec une pipette"],
+    cremes: ["banniere-cremes", "Visage en clair-obscur, un trait de crème blanche sur la pommette"],
+    serums: ["banniere-serums", "Pipette de sérum doré posée sur une peau lumineuse, yeux fermés"],
     "soins-specifiques": ["banniere-soins-specifiques", "Visage couvert d’un masque à l’argile rose craquelé"],
   };
   const INTRO_TOUS = "Des formules épurées, enrichies de concentrations optimales d’actifs ciblés et d’extraits botaniques. Chaque soin est nommé d’après ses ingrédients clés.";
