@@ -1404,3 +1404,8 @@ html.lenis, html.lenis body { height: auto; }
   .shop-hero { grid-template-columns: 1fr; }
   .shop-hero__img, .shop-hero__img--large { height: auto; aspect-ratio: 3 / 2; }
 }
+
+/* Contact : photo verticale affichée entière */
+.contact__img { aspect-ratio: 3 / 4; }
+.contact .form { align-content: start; align-self: start; }
+.contact .field { align-content: start; }
