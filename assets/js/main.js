@@ -26,6 +26,7 @@
 
   /* ---------------- En-tête, menu mobile, pied de page ---------------- */
   const navLiens = [
+    ["boutique.html?cat=tous", "Tout", "tous"],
     ["boutique.html?cat=iconiques", "Les iconiques", "iconiques"],
     ["boutique.html?cat=cremes", "Crèmes", "cremes"],
     ["boutique.html?cat=serums", "Sérums", "serums"],
@@ -48,8 +49,9 @@
                 <a href="boutique.html" aria-haspopup="true"${page === "boutique" || page === "produit" ? ' aria-current="page"' : ""}>Boutique</a>
                 <div class="nav-drop__panel">
                   <div class="nav-drop__links">
+                    <a href="boutique.html?cat=tous">Tout <span>${PRODUITS.length}</span></a>
                     <a href="boutique.html?cat=iconiques">Les iconiques <span>${PRODUITS.filter((p) => p.iconique).length}</span></a>
-                    ${navLiens.slice(1).map(([h, t, k]) => `<a href="${h}">${t} <span>${PRODUITS.filter((p) => p.categorie === k).length}</span></a>`).join("")}
+                    ${navLiens.slice(2).map(([h, t, k]) => `<a href="${h}">${t} <span>${PRODUITS.filter((p) => p.categorie === k).length}</span></a>`).join("")}
                   </div>
                   <a class="nav-drop__promo" href="produit.html?p=gel-nettoyant-doux">
                     <span class="nav-drop__img"><img src="assets/img/produits/gel-nettoyant-doux-sm.webp" alt="" loading="lazy" width="700" height="875"></span>
@@ -305,10 +307,14 @@
   }
 
   /* ---------------- Cartes produit ---------------- */
+  /* 2e image (texture), révélée au survol */
+  const texture = (p) => `<img class="hover-img" src="assets/img/photos/texture-${p.slug}.webp" alt="" loading="lazy" aria-hidden="true">`;
+
   function carte(p, i = 0) {
     return `<article class="card reveal reveal-delay-${i % 4}">
       <div class="card__media">
         <img src="${img(p, true)}" alt="${esc(p.nom + " – " + p.actifs)}" loading="lazy" width="700" height="700">
+        ${texture(p)}
       </div>
       <div class="card__body">
         <h3 class="card__name"><a href="${urlProduit(p)}">${esc(p.nom)}</a></h3>
@@ -326,10 +332,29 @@
     const dots = $$(".carousel__dots button", c);
     const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const track = $(".carousel__track", c);
-    let i = 0, timer;
+    let i = 0, pos = 0, timer;
+    const nb = slides.length;
+    /* Boucle infinie : une copie de la 1re diapo est placée après la dernière.
+       On glisse jusqu'à la copie, puis on revient sans animation sur la vraie. */
+    const copie = slides[0].cloneNode(true);
+    copie.classList.remove("is-active");
+    copie.setAttribute("aria-hidden", "true");
+    $$("a", copie).forEach((a) => (a.tabIndex = -1));
+    $$("img", copie).forEach((im) => im.removeAttribute("fetchpriority"));
+    track.appendChild(copie);
+    const placer = (p, anime) => {
+      track.style.transition = anime ? "" : "none";
+      track.style.transform = `translateX(${-p * 100}%)`;
+      if (!anime) void track.offsetWidth;
+      pos = p;
+    };
+    track.addEventListener("transitionend", (e) => { if (e.target === track && pos === nb) placer(0, false); });
     const aller = (n) => {
-      i = (n + slides.length) % slides.length;
-      track.style.transform = `translateX(${-i * 100}%)`;
+      if (pos === nb) placer(0, false);
+      if (n < 0) { placer(nb, false); n = nb - 1; }
+      placer(n, true);
+      if (n === nb) setTimeout(() => { if (pos === nb) placer(0, false); }, 1000); /* filet si transitionend ne vient pas */
+      i = n % nb;
       slides.forEach((s, k) => {
         s.classList.toggle("is-active", k === i);
         s.setAttribute("aria-hidden", k !== i);
@@ -436,13 +461,13 @@
   /* ---------------- Page boutique ---------------- */
   /* Vitrine d'une catégorie : grande image + cases produit + ligne des actifs */
   const VITRINE = {
-    serums: { visuel: ["serums", "Les quatre sérums Rosalya à plat, en plein soleil"], rituel: ["rituel-serums", "Une goutte de sérum tombant d’une pipette"],
+    serums: { photo: ["texture-serum-hydratation", "Gel transparent étalé, ponctué de microbulles"], visuel: ["serums", "Les quatre sérums Rosalya à plat, en plein soleil"], rituel: ["rituel-serums", "Une goutte de sérum tombant d’une pipette"],
       titre: "Concentrés d’actifs", lignes: ["Quatre sérums. Un besoin chacun.", "Après la lotion, avant la crème."], bas: "Étape 3 · Traiter" },
-    cremes: { visuel: ["cremes", "Trois crèmes Rosalya sur une balustrade face à la mer"], rituel: ["rituel-cremes", "Deux mains en contre-jour, une noisette de crème sur le dos de la main"],
+    cremes: { photo: ["texture-creme-eclat-subtil", "Crème nacrée aux reflets satinés"], visuel: ["cremes", "Trois crèmes Rosalya sur une balustrade face à la mer"], rituel: ["rituel-cremes", "Deux mains en contre-jour, une noisette de crème sur le dos de la main"],
       titre: "Sceller les bienfaits", lignes: ["Confort, hydratation, protection.", "Après le sérum, matin et/ou soir."], bas: "Étape 4 · Hydrater" },
-    "soins-specifiques": { visuel: ["soins-specifiques", "Lotion, huile et gel Rosalya sur un ponton au coucher du soleil"], rituel: ["rituel-soins", "Gouttes d’eau qui coulent d’un visage penché"],
+    "soins-specifiques": { photo: ["texture-huile-regenerante", "Goutte d’huile dorée déposée sur la pommette"], visuel: ["soins-specifiques", "Lotion, huile et gel Rosalya sur un ponton au coucher du soleil"], rituel: ["rituel-soins", "Gouttes d’eau qui coulent d’un visage penché"],
       titre: "Compléter le rituel", lignes: ["Du nettoyage fondamental", "aux huiles précieuses pour la nuit."], bas: "Nettoyer · Tonifier · Nourrir" },
-    iconiques: { visuel: ["iconiques", "Les quatre soins iconiques Rosalya posés sur des blocs de pierre"], rituel: ["rituel-iconiques", "Visage allongé, peau nue, en gros plan"],
+    iconiques: { photo: ["texture-creme-anti-oxydante", "Crème lisse en spirale"], visuel: ["iconiques", "Les quatre soins iconiques Rosalya posés sur des blocs de pierre"], rituel: ["rituel-iconiques", "Visage allongé, peau nue, en gros plan"],
       titre: "L’essentiel Rosalya", lignes: ["Quatre best-sellers.", "Une routine complète."], bas: "Nettoyer · Traiter · Hydrater" },
   };
 
@@ -451,6 +476,7 @@
     return `<article class="tile-p ${cls}">
       <a class="tile-p__link" href="${urlProduit(p)}">
         <img src="${img(p, true)}" alt="${esc(p.nom + " – " + p.actifs)}" loading="lazy" width="700" height="875">
+        ${texture(p)}
         <span class="tile-p__top"><strong>${esc(p.nom)}</strong><span>${esc(p.actifs)}</span></span>
         <span class="tile-p__bottom"><span>Voir le produit</span><span>${euro(p.prix)}</span></span>
       </a>
@@ -482,7 +508,7 @@
         ${d ? tuile(d, "tile-p--soft airy__d") : ""}
         ${e ? tuile(e, "tile-p--soft airy__e") : ""}
         ${reste.map((p) => tuile(p, "tile-p--soft")).join("")}
-        ${photo(VITRINE[k].visuel[0], VITRINE[k].visuel[1], "airy__photo")}
+        ${photo(VITRINE[k].photo[0], VITRINE[k].photo[1], "airy__photo")}
       </div>
     </section>`;
   }
@@ -507,15 +533,32 @@
       </section>`;
   }
 
+  /* Bannière en tête de chaque catégorie */
+  const BANNIERES = {
+    tous: ["peaux", "Quatre visages, quatre peaux différentes"],
+    iconiques: VITRINE.iconiques.visuel,
+    cremes: VITRINE.cremes.visuel,
+    serums: VITRINE.serums.visuel,
+    "soins-specifiques": VITRINE["soins-specifiques"].visuel,
+  };
+  const INTRO_TOUS = "Des formules épurées, enrichies de concentrations optimales d’actifs ciblés et d’extraits botaniques. Chaque soin est nommé d’après ses ingrédients clés.";
+
+  /* Remonte en haut de la page (avec Lenis s'il est chargé) */
+  function enHaut() {
+    const l = window.RosalyaLenis;
+    if (l) l.scrollTo(0, { duration: 1.1 });
+    else window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function boutique() {
     const grid = $("#shop-grid");
     if (!grid) return;
     const params = new URLSearchParams(location.search);
-    let cat = params.get("cat") || "iconiques";
-    if (!CATS[cat]) cat = "iconiques";
+    let cat = params.get("cat") || "tous";
+    if (cat !== "tous" && !CATS[cat]) cat = "tous";
     let tri = params.get("tri") || "defaut";
 
-    const filtres = [...Object.entries(CATS).map(([k, v]) => [k, v.label])];
+    const filtres = [["tous", "Tout"], ...Object.entries(CATS).map(([k, v]) => [k, v.label])];
     const compte = (k) =>
       k === "tous" ? PRODUITS.length : k === "iconiques" ? PRODUITS.filter((p) => p.iconique).length : PRODUITS.filter((p) => p.categorie === k).length;
 
@@ -524,6 +567,18 @@
       .join("");
     $("#sort").value = tri;
 
+    function banniere() {
+      const info = CATS[cat];
+      const [nom, alt] = BANNIERES[cat];
+      const im = $("#shop-hero-img");
+      im.src = `assets/img/photos/${nom}.webp`;
+      im.alt = alt;
+      $("#shop-hero-fig").classList.toggle("shop-hero__img--large", cat === "tous");
+      $("#shop-title").textContent = info ? info.label : "Tous les soins";
+      $("#shop-intro").textContent = info ? info.intro : INTRO_TOUS;
+      document.title = `${info ? info.label : "Tous les soins"} · Rosalya`;
+    }
+
     function rendu(anime) {
       let liste = PRODUITS.slice();
       if (cat === "iconiques") liste = liste.filter((p) => p.iconique);
@@ -531,22 +586,16 @@
       if (tri === "prix-asc") liste.sort((a, b) => a.prix - b.prix);
       if (tri === "prix-desc") liste.sort((a, b) => b.prix - a.prix);
       if (tri === "routine") liste.sort((a, b) => a.etape - b.etape);
-
-      const info = CATS[cat];
-      $("#shop-title").textContent = info ? info.label : "Tous les soins";
-      $("#shop-intro").textContent = info
-        ? info.intro
-        : "Des formules épurées, enrichies de concentrations optimales d’actifs ciblés et d’extraits botaniques. Chaque soin est nommé d’après ses ingrédients clés, pour savoir exactement ce que vous appliquez.";
       $("#shop-count").textContent = `${liste.length} soin${liste.length > 1 ? "s" : ""}`;
-      document.title = `${info ? info.label : "Tous les soins"} · Rosalya`;
 
       const peindre = () => {
-        grid.className = "showcases";
+        banniere();
         if (cat === "tous") {
-          grid.innerHTML = ["serums", "cremes", "soins-specifiques"]
-            .map((k) => vitrine(k, liste.filter((p) => p.categorie === k), true))
-            .join("");
+          /* Vue « Tout » : grille simple de cartes */
+          grid.className = "cells";
+          grid.innerHTML = liste.map(carte).join("");
         } else {
+          grid.className = "showcases";
           grid.innerHTML = vitrine(cat, liste, false) + rituel(cat, liste);
         }
         reveal();
@@ -561,19 +610,30 @@
       u.searchParams.set("cat", cat);
       tri === "defaut" ? u.searchParams.delete("tri") : u.searchParams.set("tri", tri);
       history.replaceState(null, "", u);
-      $$(".nav--left a").forEach((a) => {
-        const k = new URL(a.href).searchParams.get("cat");
-        (k === cat || (!k && cat === "tous")) ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current");
-      });
+    }
+
+    function choisir(k) {
+      enHaut();
+      if (k === cat) return;
+      cat = k;
+      $$("#filters .chip").forEach((c) => c.setAttribute("aria-pressed", c.dataset.cat === k));
+      majUrl();
+      rendu(true);
     }
 
     $("#filters").addEventListener("click", (e) => {
       const b = e.target.closest("[data-cat]");
-      if (!b || b.dataset.cat === cat) return;
-      cat = b.dataset.cat;
-      $$("#filters .chip").forEach((c) => c.setAttribute("aria-pressed", c === b));
-      majUrl();
-      rendu(true);
+      if (b) choisir(b.dataset.cat);
+    });
+    /* Liens de catégorie du menu : on reste sur la page et on remonte en haut */
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest('a[href^="boutique.html"]');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      const k = new URL(a.href).searchParams.get("cat") || "tous";
+      if (k !== "tous" && !CATS[k]) return;
+      e.preventDefault();
+      a.blur();
+      choisir(k);
     });
     $("#sort").addEventListener("change", (e) => { tri = e.target.value; majUrl(); rendu(true); });
     rendu(false);

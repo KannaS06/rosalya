@@ -1346,3 +1346,52 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Fiche produit : texture au même format que le packshot */
 .pdp__second { aspect-ratio: 4 / 5; }
+
+/* v13 — carrousel en boucle, survol texture, bannières de catégorie */
+/* le header fait 64px + 1px de bordure : on remonte d'autant pour supprimer la ligne claire */
+.carousel { margin-top: calc(-1 * var(--header-h) - 1px); }
+.carousel__hero { object-position: 100% 50%; }
+@media (max-width: 900px) { .carousel__hero { object-position: 86% 50%; } }
+
+/* 2e image au survol, sans zoom */
+.card:hover .card__media img, .tile-p:hover img { transform: none; }
+.hover-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity .5s var(--ease); pointer-events: none;
+}
+@media (hover: hover) {
+  .card:hover .hover-img, .tile-p:hover .hover-img { opacity: 1; }
+}
+
+/* Bannière en tête de la boutique : texte à gauche, visuel entier à droite */
+.shop-hero {
+  display: grid; grid-template-columns: 1fr auto; align-items: stretch;
+  height: clamp(420px, 62svh, 640px); background: var(--card); overflow: hidden;
+}
+.shop-hero__content {
+  align-self: end; padding: clamp(28px, 4vw, 64px) var(--gutter);
+  max-width: 760px; display: grid; gap: 16px;
+}
+.shop-hero__label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.shop-hero__title { font-size: clamp(40px, 5.4vw, 80px); font-weight: 400; letter-spacing: -.035em; line-height: 1; text-transform: uppercase; }
+.shop-hero__intro { font-size: 15px; line-height: 1.6; max-width: 52ch; color: var(--muted); }
+.shop-hero__img { margin: 0; height: 100%; aspect-ratio: 4 / 5; overflow: hidden; }
+.shop-hero__img--large { aspect-ratio: 5 / 3; }
+.shop-hero__img img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 900px) {
+  .shop-hero { grid-template-columns: 1fr; height: auto; }
+  .shop-hero__img, .shop-hero__img--large { order: -1; height: auto; aspect-ratio: 4 / 3; }
+  .shop-hero__content { padding: 28px var(--gutter) 8px; }
+}
+.shop-hero + .wrap { padding-top: 8px; }
+/* textes lisibles sur la texture au survol des tuiles */
+.tile-p__link::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s var(--ease);
+  background: linear-gradient(to bottom, rgba(20,18,16,.35), rgba(20,18,16,0) 30%, rgba(20,18,16,0) 75%, rgba(20,18,16,.35));
+}
+.tile-p__top, .tile-p__bottom, .tile-p__top span { transition: color .5s var(--ease); }
+.tile-p__plus { transition: transform .35s var(--ease), color .5s var(--ease); }
+@media (hover: hover) {
+  .tile-p:hover .tile-p__link::after { opacity: 1; }
+  .tile-p:hover .tile-p__top, .tile-p:hover .tile-p__top span, .tile-p:hover .tile-p__bottom, .tile-p:hover .tile-p__plus { color: var(--white); }
+}
