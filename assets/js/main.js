@@ -436,13 +436,13 @@
   /* ---------------- Page boutique ---------------- */
   /* Vitrine d'une catégorie : grande image + cases produit + ligne des actifs */
   const VITRINE = {
-    serums: { visuel: ["serums", "Les quatre sérums Rosalya à plat, en plein soleil"], rituel: ["deux-visages", "Deux visages côte à côte"],
+    serums: { visuel: ["serums", "Les quatre sérums Rosalya à plat, en plein soleil"], rituel: ["rituel-serums", "Une goutte de sérum tombant d’une pipette"],
       titre: "Concentrés d’actifs", lignes: ["Quatre sérums. Un besoin chacun.", "Après la lotion, avant la crème."], bas: "Étape 3 · Traiter" },
-    cremes: { visuel: ["cremes", "Trois crèmes Rosalya sur une balustrade face à la mer"], rituel: ["regard", "Gros plan sur un regard"],
+    cremes: { visuel: ["cremes", "Trois crèmes Rosalya sur une balustrade face à la mer"], rituel: ["rituel-cremes", "Deux mains en contre-jour, une noisette de crème sur le dos de la main"],
       titre: "Sceller les bienfaits", lignes: ["Confort, hydratation, protection.", "Après le sérum, matin et/ou soir."], bas: "Étape 4 · Hydrater" },
-    "soins-specifiques": { visuel: ["soins-specifiques", "Lotion, huile et gel Rosalya sur un ponton au coucher du soleil"], rituel: ["mousse-gel", "Mousse du gel nettoyant"],
+    "soins-specifiques": { visuel: ["soins-specifiques", "Lotion, huile et gel Rosalya sur un ponton au coucher du soleil"], rituel: ["rituel-soins", "Gouttes d’eau qui coulent d’un visage penché"],
       titre: "Compléter le rituel", lignes: ["Du nettoyage fondamental", "aux huiles précieuses pour la nuit."], bas: "Nettoyer · Tonifier · Nourrir" },
-    iconiques: { visuel: ["iconiques", "Les quatre soins iconiques Rosalya posés sur des blocs de pierre"], rituel: ["regard", "Gros plan sur un regard"],
+    iconiques: { visuel: ["iconiques", "Les quatre soins iconiques Rosalya posés sur des blocs de pierre"], rituel: ["rituel-iconiques", "Visage allongé, peau nue, en gros plan"],
       titre: "L’essentiel Rosalya", lignes: ["Quatre best-sellers.", "Une routine complète."], bas: "Nettoyer · Traiter · Hydrater" },
   };
 

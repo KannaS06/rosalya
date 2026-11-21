@@ -1342,3 +1342,4 @@ html.lenis, html.lenis body { height: auto; }
 /* Barre de filtres collante : fond sur toute la largeur (les vitrines pleine largeur passaient sur les côtés) */
 .toolbar { box-shadow: 0 0 0 100vmax var(--bg); clip-path: inset(0 -100vmax); border-bottom: 0; }
 .toolbar::after { content: ""; position: absolute; left: -100vmax; right: -100vmax; bottom: 0; height: 1px; background: var(--line); }
+
